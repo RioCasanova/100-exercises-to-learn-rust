@@ -34,6 +34,7 @@ impl Ticket {
         }
     }
 
+
     pub fn title(&self) -> &String {
         &self.title
     }
@@ -45,6 +46,7 @@ impl Ticket {
     pub fn status(&self) -> &String {
         &self.status
     }
+
 }
 
 #[cfg(test)]
