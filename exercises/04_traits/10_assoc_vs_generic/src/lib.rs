@@ -2,7 +2,40 @@
 //  to the power of `n`.
 //  The trait definition and its implementations should be enough to get
 //  the tests to compile and pass.
-//
+
+pub trait Power<RHS = Self> {
+    type Output;
+
+    fn power(self, rhs: RHS) -> Self::Output;
+}
+
+impl Power<u32> for u32 {
+    type Output = u32;
+
+    fn power(self, rhs: u32) -> u32 {
+        self.pow(rhs)
+    }
+}
+
+impl Power<u16> for u32 {
+    type Output = u32;
+
+    fn power(self, rhs: u16) -> u32 {
+        let value: u32 = rhs as u32;
+        self.pow(value)
+    }
+}
+
+impl Power<&u32> for u32 {
+    type Output = u32;
+
+    fn power(self, rhs: &u32) -> u32 {
+        let value: u32 = *rhs;
+        self.pow(value)
+    }
+}
+
+
 // Recommendation: you may be tempted to write a generic implementation to handle
 // all cases at once. However, this is fairly complicated and requires the use of
 // additional crates (i.e. `num-traits`).
