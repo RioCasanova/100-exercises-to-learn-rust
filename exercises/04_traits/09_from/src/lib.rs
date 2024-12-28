@@ -5,9 +5,9 @@ pub struct WrappingU32 {
 }
 
 impl From<i32> for WrappingU32 {
-    fn from(value: i32) -> WrappingU32 {
+    fn from(new_value: i32) -> WrappingU32 {
         WrappingU32 {
-            value: (value as u32).into()
+            value: (new_value as u32)
         }
     }
 }
