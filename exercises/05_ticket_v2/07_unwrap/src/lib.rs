@@ -1,9 +1,39 @@
+use core::panic;
+
 // TODO: `easy_ticket` should panic when the title is invalid.
 //   When the description is invalid, instead, it should use a default description:
 //   "Description not provided".
 fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+    match Ticket::new(title.clone(), description, status.clone()) {
+        Ok(new_ticket) => new_ticket,
+        Err(err) => {
+            if err.contains("Title") {
+                panic!("Title Invalid: {}", err);
+            } else if err.contains("Description") {
+                // Provide a default description if the description is invalid
+                Ticket::new(title, "Description not provided".to_string(), status)
+                    .expect("Failed to create ticket with default description")
+            } else {
+                panic!("Ticket creation failed: {}", err);
+            }
+        }
+    }
 }
+
+// Solution in GitHub
+
+// fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
+//     match Ticket::new(title.clone(), description, status.clone()) {
+//         Ok(ticket) => ticket,
+//         Err(error) => {
+//             if error.contains("Description") {
+//                 Ticket::new(title, "Description not provided".to_string(), status).unwrap()
+//             } else {
+//                 panic!("{error}");
+//             }
+//         }
+//     }
+// }
 
 #[derive(Debug, PartialEq, Clone)]
 struct Ticket {
