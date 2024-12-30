@@ -13,10 +13,33 @@
 pub fn fibonacci(n: u32) -> u32 {
     // TODO: implement the `fibonacci` function
     //
-    // Hint: use a `Vec` to memoize the results you have already calculated
+    // Hint: use a `Vec` to memorize the results you have already calculated
     // so that you don't have to recalculate them several times.
-    todo!()
+    let mut numbers: Vec<u32> = vec![0, 1];
+    let mut counter: usize = 1;
+    let mut previous: usize = 0;
+    let mut result: u32 = 0u32;
+    
+
+    while (n + 1) > counter.try_into().unwrap() {
+        result = numbers[previous] + numbers[counter];
+        numbers.push(result);
+        previous += 1usize;
+        counter += 1usize;
+    }
+    return numbers[n as usize]
 }
+
+// GitHub Solution
+
+// pub fn fibonacci(n: u32) -> u32 {
+//     let n = n as usize;
+//     let mut memo = vec![0, 1];
+//     for i in 2..=n {
+//         memo.push(memo[i - 1] + memo[i - 2]);
+//     }
+//     memo[n]
+// }
 
 #[cfg(test)]
 mod tests {
