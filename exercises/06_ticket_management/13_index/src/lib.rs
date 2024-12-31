@@ -2,6 +2,20 @@
 
 use ticket_fields::{TicketDescription, TicketTitle};
 
+impl std::ops::Index<&TicketId> for TicketStore {
+    type Output = Ticket;
+    fn index(&self, index: &TicketId) -> &Self::Output {
+        self.tickets.iter().find(|ticket| ticket.id == *index).expect("Ticket not found")
+    }
+}
+
+impl std::ops::Index<TicketId> for TicketStore {
+    type Output = Ticket;
+    fn index(&self, index: TicketId) -> &Self::Output {
+        self.index(&index)
+    }
+}
+
 #[derive(Clone)]
 pub struct TicketStore {
     tickets: Vec<Ticket>,

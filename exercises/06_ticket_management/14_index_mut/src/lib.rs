@@ -1,5 +1,17 @@
 // TODO: Implement `IndexMut<&TicketId>` and `IndexMut<TicketId>` for `TicketStore`.
 
+impl std::ops::IndexMut<&TicketId> for TicketStore {
+    fn index_mut(&mut self, index: &TicketId) -> &mut Self::Output {
+        self.tickets.iter_mut().find(|ticket| ticket.id == *index).unwrap()
+    }
+}
+
+impl std::ops::IndexMut<TicketId> for TicketStore {
+    fn index_mut(&mut self, index: TicketId) -> &mut Self::Output {
+        self.tickets.iter_mut().find(|ticket| ticket.id == index).unwrap()
+    }
+}
+
 use std::ops::Index;
 use ticket_fields::{TicketDescription, TicketTitle};
 

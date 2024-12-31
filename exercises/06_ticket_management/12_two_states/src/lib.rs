@@ -5,7 +5,7 @@
 //
 // You also need to add a `get` method that takes as input a `TicketId`
 // and returns an `Option<&Ticket>`.
-
+use rand::Rng;
 use ticket_fields::{TicketDescription, TicketTitle};
 
 #[derive(Clone)]
@@ -44,8 +44,23 @@ impl TicketStore {
         }
     }
 
-    pub fn add_ticket(&mut self, ticket: Ticket) {
-        self.tickets.push(ticket);
+    pub fn add_ticket(&mut self, ticket: TicketDraft) -> TicketId {
+        let random_id = rand::thread_rng().gen::<u64>();
+        let new_ticket: Ticket = Ticket {
+            id: TicketId(random_id.clone()),
+            title: ticket.title,
+            description: ticket.description,
+            status: Status::ToDo
+        };
+        self.tickets.push(new_ticket);
+        TicketId(random_id)
+    }
+
+    pub fn get(&self, id: TicketId) -> Option<&Ticket> {
+        match self.tickets.iter().find(|ticket| ticket.id == id) {
+            Some(ticket) => Some(ticket),
+            None => None
+        }
     }
 }
 
