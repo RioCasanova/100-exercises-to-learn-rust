@@ -3,9 +3,36 @@
 //  Do not allocate any additional memory!
 use std::thread;
 
+// This example uses the main thread and the spawned thread but what we are 
+// looking for is the use of two spawned threads. In this example, because
+// there is only one spawned thread there are no 'competing' threads.
+// This means that the 'move' keyword is not needed to take ownership of the
+// variable within the closure.
+// pub fn sum(slice: &'static [i32]) -> i32 {
+//     let (first, second) = slice.split_at(slice.len() / 2);
+//     let sum1: i32;
+//     let sum2;
+//     let handle = thread::spawn(|| {
+//         first.iter().sum::<i32>()
+//     });
+
+//     sum1 = handle.join().unwrap();
+//     sum2 = second.iter().sum::<i32>();
+//     sum1 + sum2
+// }
+
+// Here is what the solution looks like - it is best practice to use the 
+// move keyword in this instance
 pub fn sum(slice: &'static [i32]) -> i32 {
-    todo!()
+    let mid = slice.len() / 2;
+    let (slice1, slice2) = slice.split_at(mid);
+
+    let handle1 = thread::spawn(move || slice1.iter().sum::<i32>());
+    let handle2 = thread::spawn(move || slice2.iter().sum::<i32>());
+
+    handle1.join().unwrap() + handle2.join().unwrap()
 }
+
 
 #[cfg(test)]
 mod tests {
